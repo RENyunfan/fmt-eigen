@@ -22,7 +22,7 @@
     SOFTWARE.
 */
 
-#pragma once
+#ifndef FMT_EIGEN_HPP
 
 #include <fmt/format.h>
 #include <Eigen/Dense>
@@ -52,18 +52,29 @@ public:
         return it;
     }
 
+    template<typename Scalar, typename FormatContext>
+       typename std::enable_if<std::is_floating_point<Scalar>::value>::type
+       format_element(Scalar value, FormatContext &ctx) {
+        fmt::format_to(ctx.out(), "{:.{}f} ", value, precision);
+    }
+
+    template<typename Scalar, typename FormatContext>
+    typename std::enable_if<std::is_integral<Scalar>::value>::type
+    format_element(Scalar value, FormatContext &ctx) {
+        fmt::format_to(ctx.out(), "{:d} ", value);
+    }
+
     // Format the matrix with the specified precision
     template<typename FormatContext>
     auto format(const MatrixType &matrix, FormatContext &ctx) {
         for (int i = 0; i < matrix.rows(); i++) {
             for (int j = 0; j < matrix.cols(); j++) {
-                fmt::format_to(ctx.out(), "{:.{}f} ", matrix(i, j), precision);
+                format_element(matrix(i, j), ctx);
             }
             if (i != matrix.rows() - 1) {
                 fmt::format_to(ctx.out(), "\n");
             }
         }
-
         return ctx.out();
     }
 };
@@ -90,3 +101,5 @@ template<typename Scalar, int Rows, int Cols>
 struct fmt::formatter<Eigen::Diagonal<Eigen::Matrix<Scalar, Rows, Cols>>> :
         MatrixFormatter<Eigen::Diagonal<Eigen::Matrix<Scalar, Rows, Cols>>> {
 };
+
+#endif

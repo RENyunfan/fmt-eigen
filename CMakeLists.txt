@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 # use without ROS, and pure fmt
 # first install fmt from https://github.com/fmtlib/fmt
- find_package(fmt REQUIRED)
+
+find_package(fmt REQUIRED)
 add_executable(example example.cpp)
 target_link_libraries(example
         fmt::fmt
@@ -20,7 +21,7 @@ target_link_libraries(example
 #include_directories(${rosfmt_INCLUDE_DIRS})
 #add_executable(example example.cpp)
 #target_link_libraries(example
-#  ${rosfmt_LIBRARIES}
+#        ${rosfmt_LIBRARIES}
 #)
 
 
