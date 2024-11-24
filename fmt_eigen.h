@@ -23,6 +23,7 @@
 */
 
 #ifndef FMT_EIGEN_HPP
+#define FMT_EIGEN_HPP
 
 #include <fmt/format.h>
 #include <Eigen/Dense>
