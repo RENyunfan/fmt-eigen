@@ -55,19 +55,19 @@ public:
 
     template<typename Scalar, typename FormatContext>
        typename std::enable_if<std::is_floating_point<Scalar>::value>::type
-       format_element(Scalar value, FormatContext &ctx) {
+       format_element(Scalar value, FormatContext &ctx) const {
         fmt::format_to(ctx.out(), "{:.{}f} ", value, precision);
     }
 
     template<typename Scalar, typename FormatContext>
     typename std::enable_if<std::is_integral<Scalar>::value>::type
-    format_element(Scalar value, FormatContext &ctx) {
+    format_element(Scalar value, FormatContext &ctx) const {
         fmt::format_to(ctx.out(), "{:d} ", value);
     }
 
     // Format the matrix with the specified precision
     template<typename FormatContext>
-    auto format(const MatrixType &matrix, FormatContext &ctx) {
+    auto format(const MatrixType &matrix, FormatContext &ctx) const {
         for (int i = 0; i < matrix.rows(); i++) {
             for (int j = 0; j < matrix.cols(); j++) {
                 format_element(matrix(i, j), ctx);
